@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "LiveSign Studio",
+  "version": "1.0",
+  "description": "Studio Neutral ASL Interpreter HUD",
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    }
+  },
+  "permissions": ["camera"],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; object-src 'self'"
+  }
+}
