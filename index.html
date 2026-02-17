@@ -3,32 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LiveSign | Studio Neutral</title>
+    <title>LiveSign Studio | Prototype</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
 </head>
 <body>
+    <video id="input_video" style="display:none"></video>
+
     <div class="asl-hud-container">
         <div class="header">// LIVESIGN v1.0 STUDIO</div>
         
         <div id="avatar-mount"></div>
 
         <div class="output-area">
-            <div id="gloss-text">READY</div>
-            <div id="raw-subtitles">Awaiting audio input...</div>
+            <div id="gloss-text">INITIALIZING...</div>
+            <div id="raw-subtitles">Allow camera access to begin.</div>
         </div>
 
         <div class="dashboard">
             <div class="stats">
                 <span>SYNC PRECISION</span>
-                <span id="accuracy-val">92%</span>
+                <span id="accuracy-val">0%</span>
             </div>
             <div class="progress-bg">
-                <div id="progress-fill"></div>
+                <div id="progress-fill" style="width: 0%"></div>
             </div>
             <div class="controls">
-                <button class="btn-neutral" id="focusBtn">FOCUS</button>
-                <button class="btn-neutral" id="nightBtn">NIGHT</button>
+                <button class="btn-neutral" id="nightBtn">NIGHT MODE</button>
             </div>
         </div>
     </div>
