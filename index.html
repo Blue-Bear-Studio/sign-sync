@@ -4,41 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LiveSign | Studio Neutral</title>
-    
     <link rel="stylesheet" href="styles.css">
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
 </head>
 <body>
-
     <div class="asl-hud-container">
-        <div class="header hide-on-focus">
-            <span class="status-indicator"></span>
-            <span class="label">// LIVESIGN v1.0</span>
-        </div>
-
-        <div id="avatar-mount" style="height: 250px; width: 100%;"></div>
-
+        <div class="header">// LIVESIGN v1.0</div>
+        <div id="avatar-mount"></div>
         <div class="output-area">
             <div id="gloss-text">READY</div>
             <div id="raw-subtitles">Awaiting audio...</div>
         </div>
-
-        <div class="dashboard hide-on-focus">
+        <div class="dashboard">
             <div class="stats">
                 <span>SYNC PRECISION</span>
                 <span id="accuracy-val">92%</span>
             </div>
-            <div class="progress-bg">
-                <div id="progress-fill" style="width: 92%"></div>
-            </div>
+            <div class="progress-bg"><div id="progress-fill"></div></div>
             <div class="controls">
-                <button class="btn-neutral" onclick="toggleFocus()">FOCUS</button>
-                <button class="btn-neutral" onclick="toggleNight()">NIGHT</button>
+                <button class="btn-neutral">FOCUS</button>
+                <button class="btn-neutral">NIGHT</button>
             </div>
         </div>
     </div>
-
     <script src="asl_engine.js"></script>
 </body>
 </html>
