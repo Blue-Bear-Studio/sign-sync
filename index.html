@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LiveSign Studio | Prototype</title>
+    <title>LiveSign Studio | Final</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
@@ -20,6 +20,10 @@
         <div class="output-area">
             <div id="gloss-text">INITIALIZING...</div>
             <div id="raw-subtitles">Allow camera access to begin.</div>
+            
+            <div id="sentence-transcript">
+                TRANSCRIPT: <span id="current-sentence">...</span>
+            </div>
         </div>
 
         <div class="dashboard">
@@ -31,12 +35,12 @@
                 <div id="progress-fill" style="width: 0%"></div>
             </div>
             <div class="controls">
-                <button class="btn-neutral" id="nightBtn">NIGHT MODE</button>
+                <button class="btn-neutral" id="speakBtn">SPEAK</button>
+                <button class="btn-neutral" id="clearBtn">CLEAR</button>
+                <button class="btn-neutral" id="nightBtn">NIGHT</button>
             </div>
         </div>
     </div>
     <script src="asl_engine.js"></script>
 </body>
-</html> 
-
-
+</html>
