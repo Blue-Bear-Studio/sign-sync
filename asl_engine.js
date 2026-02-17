@@ -1,4 +1,4 @@
-// 1. Initializing the 3D Render & Camera Setup
+// 1. SETUP
 const container = document.getElementById('avatar-mount');
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 1000);
@@ -12,25 +12,28 @@ const handDots = new THREE.Points(geometry, material);
 scene.add(handDots);
 camera.position.z = 2.5;
 
-// 2. ASL Forge: Logic to translate shapes into words
+// 2. STATE VARIABLES
+let sentence = [];
+let lastSign = "";
+let signStartTime = 0;
+const REQUIRED_HOLD_TIME = 1000;
+
+// 3. ASL FORGE DICTIONARY
 function interpretSign(landmarks) {
-    const dist = (p1, p2) => Math.sqrt((p1.x-p2.x)**2 + (p1.y-p2.y)**2);
-    
-    // Key landmarks: Thumb(4), Index(8), Middle(12), Ring(16), Pinky(20), Wrist(0)
-    const thumb = landmarks[4];
-    const index = landmarks[8];
-    const wrist = landmarks[0];
+    const isIndexUp = landmarks[8].y < landmarks[6].y;
+    const isMiddleUp = landmarks[12].y < landmarks[10].y;
+    const isRingUp = landmarks[16].y < landmarks[14].y;
+    const isPinkyUp = landmarks[20].y < landmarks[18].y;
+    const thumbIndexDist = Math.sqrt(Math.pow(landmarks[4].x - landmarks[8].x, 2) + Math.pow(landmarks[4].y - landmarks[8].y, 2));
 
-    // Example HELLO: Flat palm, fingers above wrist
-    if (index.y < wrist.y && dist(thumb, index) > 0.15) return "HELLO";
-    
-    // Example OK: Thumb and Index touching
-    if (dist(thumb, index) < 0.05) return "OK / UNDERSTOOD";
-
+    if (isIndexUp && isMiddleUp && isRingUp && isPinkyUp) return "HELLO";
+    if (isIndexUp && isMiddleUp && !isRingUp && !isPinkyUp) return "PEACE";
+    if (thumbIndexDist < 0.05 && isMiddleUp && isRingUp) return "OK";
+    if (isIndexUp && isPinkyUp && !isMiddleUp && !isRingUp) return "ROCK ON";
     return "TRACKING...";
 }
 
-// 3. MediaPipe Tracking Integration
+// 4. MEDIAPIPE & SENTENCE BUILDING
 const videoElement = document.getElementById('input_video');
 const hands = new Hands({locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`});
 
@@ -46,21 +49,41 @@ hands.onResults((results) => {
             positions[i * 3 + 1] = -(pt.y - 0.5) * 2.5; 
             positions[i * 3 + 2] = -pt.z * 2;
         });
-
         geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        
-        // Push result to HUD
-        document.getElementById('gloss-text').innerText = interpretSign(landmarks);
+
+        const currentSign = interpretSign(landmarks);
+        document.getElementById('gloss-text').innerText = currentSign;
+
+        if (currentSign !== "TRACKING..." && currentSign !== "HELLO") {
+            if (currentSign === lastSign) {
+                if (Date.now() - signStartTime > REQUIRED_HOLD_TIME) {
+                    if (sentence[sentence.length - 1] !== currentSign) {
+                        sentence.push(currentSign);
+                        document.getElementById('current-sentence').innerText = sentence.join(" ");
+                    }
+                }
+            } else {
+                lastSign = currentSign;
+                signStartTime = Date.now();
+            }
+        }
         document.getElementById('accuracy-val').innerText = "98%";
         document.getElementById('progress-fill').style.width = "98%";
     }
 });
 
-const cam = new Camera(videoElement, {
-    onFrame: async () => { await hands.send({image: videoElement}); },
-    width: 640, height: 480
-});
-cam.start();
+new Camera(videoElement, { onFrame: async () => { await hands.send({image: videoElement}); }, width: 640, height: 480 }).start();
+
+// 5. INTERACTION (VOICE / CLEAR)
+document.getElementById('speakBtn').onclick = () => {
+    const speech = new SpeechSynthesisUtterance(sentence.join(" "));
+    window.speechSynthesis.speak(speech);
+};
+
+document.getElementById('clearBtn').onclick = () => {
+    sentence = [];
+    document.getElementById('current-sentence').innerText = "...";
+};
 
 function animate() { requestAnimationFrame(animate); renderer.render(scene, camera); }
 animate();
