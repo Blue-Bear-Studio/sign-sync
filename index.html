@@ -1,152 +1,44 @@
-# FILE 1: manifest.json (The Extension Entry Point)
-{
-  "manifest_version": 3,
-  "name": "ASL Tutor: Studio Neutral HUD",
-  "version": "1.0",
-  "permissions": ["sidePanel", "scripting", "activeTab", "tabCapture"],
-  "action": { "default_title": "Open ASL HUD" },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["three.min.js", "mediapipe_hands.js", "asl_engine.js"],
-      "css": ["styles.css"]
-    }
-  ]
-}
-
----
-
-# FILE 2: styles.css (The Studio-Neutral Aesthetic)
-:root {
-    --accent: #8dbdb2; /* Soft Sage/Teal */
-    --bg-glass: rgba(25, 25, 25, 0.85);
-    --text-primary: #f0f0f0;
-    --text-muted: #888888;
-}
-
-.asl-hud-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 320px;
-    background: var(--bg-glass);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 20px;
-    font-family: 'Inter', system-ui, sans-serif;
-    color: var(--text-primary);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    z-index: 9999;
-}
-
-.night-mode {
-    --accent: #d4a373; /* Warm Amber */
-    filter: sepia(10%) contrast(95%);
-}
-
-.focus-mode .hide-on-focus {
-    display: none;
-}
-
-.btn-neutral {
-    background: #333;
-    color: var(--accent);
-    border: 1px solid #444;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-size: 11px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.btn-neutral:hover {
-    background: var(--accent);
-    color: #111;
-}
-
----
-
-# FILE 3: asl_engine.js (The Logic Forge)
-
-/**
- * 1. ASL FORGE: Grammar reordering Logic
- * Transforms English (S-V-O) to ASL (Time-Topic-Comment)
- */
-function processToGloss(text) {
-    const timeWords = ['YESTERDAY', 'TODAY', 'NOW', 'FUTURE', 'MONDAY'];
-    const fillers = ['IS', 'AM', 'ARE', 'THE', 'A', 'AN', 'OF'];
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiveSign | Studio Neutral</title>
     
-    let words = text.toUpperCase().split(' ').filter(w => !fillers.includes(w));
-    let time = words.filter(w => timeWords.includes(w));
-    let rest = words.filter(w => !timeWords.includes(w));
+    <link rel="stylesheet" href="styles.css">
     
-    return [...time, ...rest]; // Final ASL Gloss Array
-}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+</head>
+<body>
 
-/**
- * 2. KINETIC COMPRESSION: Smooth 3D LERP
- * Adjusts animation speed based on speaker velocity.
- */
-function updateSkeleton(currentPose, targetPose, speedFactor = 0.1) {
-    // Linear Interpolation for natural movement
-    for (let i = 0; i < currentPose.length; i++) {
-        currentPose[i].lerp(targetPose[i], speedFactor);
-    }
-}
-
-/**
- * 3. SPARRING MODE: Accuracy Verification
- * Compares webcam landmarks to Dictionary landmarks.
- */
-function calculateAccuracy(userHand, dictHand) {
-    let totalDist = 0;
-    userHand.forEach((joint, i) => {
-        const d = joint.distanceTo(dictHand[i]);
-        totalDist += d;
-    });
-    // Return normalized score (0-100)
-    return Math.max(0, 100 - (totalDist * 10));
-}
-
-/**
- * 4. SYSTEM UTILITIES: PiP and Toggles
- */
-async function triggerPiP(canvas) {
-    const video = document.createElement('video');
-    video.srcObject = canvas.captureStream(60);
-    await video.play();
-    await video.requestPictureInPicture();
-}
-
----
-
-# FILE 4: index.html (The HUD Structure)
-<div class="asl-hud-container">
-    <div class="header hide-on-focus flex justify-between items-center">
-        <span class="status-indicator"></span>
-        <span class="label">v1.0 STUDIO NEUTRAL</span>
-    </div>
-
-    <div id="avatar-mount" style="height: 250px; width: 100%;">
+    <div class="asl-hud-container">
+        <div class="header hide-on-focus">
+            <span class="status-indicator"></span>
+            <span class="label">// LIVESIGN v1.0</span>
         </div>
 
-    <div class="output-area text-center">
-        <div id="gloss-text" style="color: var(--accent); font-size: 20px;">READY</div>
-        <div id="raw-subtitles" style="font-size: 11px; opacity: 0.5;">Awaiting audio...</div>
-    </div>
+        <div id="avatar-mount" style="height: 250px; width: 100%;"></div>
 
-    <div class="dashboard hide-on-focus mt-4">
-        <div class="flex justify-between text-[10px] mb-1">
-            <span>SYNC PRECISION</span>
-            <span id="accuracy-val">92%</span>
+        <div class="output-area">
+            <div id="gloss-text">READY</div>
+            <div id="raw-subtitles">Awaiting audio...</div>
         </div>
-        <div class="progress-bg bg-neutral-800 h-1 rounded-full">
-            <div id="progress-fill" class="bg-teal-500 h-full" style="width: 92%"></div>
-        </div>
-        <div class="controls flex gap-2 mt-4">
-            <button class="btn-neutral" onclick="toggleFocus()">FOCUS</button>
-            <button class="btn-neutral" onclick="toggleNight()">NIGHT</button>
+
+        <div class="dashboard hide-on-focus">
+            <div class="stats">
+                <span>SYNC PRECISION</span>
+                <span id="accuracy-val">92%</span>
+            </div>
+            <div class="progress-bg">
+                <div id="progress-fill" style="width: 92%"></div>
+            </div>
+            <div class="controls">
+                <button class="btn-neutral" onclick="toggleFocus()">FOCUS</button>
+                <button class="btn-neutral" onclick="toggleNight()">NIGHT</button>
+            </div>
         </div>
     </div>
-</div>
+
+    <script src="asl_engine.js"></script>
+</body>
+</html>
