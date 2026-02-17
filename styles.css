@@ -9,42 +9,24 @@
     --border: rgba(255, 255, 255, 0.1);
 }
 
-body {
-    background-color: var(--bg-deep);
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
-}
+body { background-color: var(--bg-deep); margin: 0; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
 
-.asl-hud-container {
-    width: 340px;
-    background: var(--panel-glass);
-    backdrop-filter: blur(15px);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 25px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-}
+.asl-hud-container { width: 340px; background: var(--panel-glass); backdrop-filter: blur(15px); border: 1px solid var(--border); border-radius: 16px; padding: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
 
 .header { font-family: 'Roboto Mono', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 2px; margin-bottom: 20px; }
 
-#avatar-mount {
-    height: 220px; width: 100%; background: rgba(0,0,0,0.4);
-    border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--border);
-}
+#avatar-mount { height: 220px; width: 100%; background: rgba(0,0,0,0.4); border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--border); }
 
 #gloss-text { font-size: 28px; font-weight: 700; color: var(--studio-teal); margin-bottom: 5px; }
-#raw-subtitles { font-size: 12px; color: var(--text-dim); margin-bottom: 20px; }
 
-.stats { display: flex; justify-content: space-between; font-size: 10px; font-family: 'Roboto Mono', monospace; margin-bottom: 5px; }
+#sentence-transcript { margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid var(--border); font-family: 'Roboto Mono', monospace; font-size: 12px; color: var(--studio-teal); min-height: 20px; word-wrap: break-word; }
+
+.stats { display: flex; justify-content: space-between; font-size: 10px; font-family: 'Roboto Mono', monospace; margin-bottom: 5px; color: var(--text-dim); }
+
 .progress-bg { height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; margin-bottom: 20px; }
 #progress-fill { height: 100%; background: var(--studio-teal); transition: width 0.3s ease; }
 
-.btn-neutral {
-    width: 100%; background: #1a1a1a; border: 1px solid #333; color: var(--text-main);
-    padding: 10px; border-radius: 6px; font-size: 11px; font-family: 'Roboto Mono', monospace; cursor: pointer;
-}
+.controls { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+
+.btn-neutral { background: #1a1a1a; border: 1px solid #333; color: var(--text-main); padding: 8px; border-radius: 6px; font-size: 10px; font-family: 'Roboto Mono', monospace; cursor: pointer; transition: 0.2s; }
+.btn-neutral:hover { border-color: var(--studio-teal); color: var(--studio-teal); }
