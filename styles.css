@@ -17,6 +17,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    overflow: hidden;
 }
 
 .asl-hud-container {
@@ -29,77 +30,21 @@ body {
     box-shadow: 0 20px 50px rgba(0,0,0,0.8);
 }
 
-.header {
-    font-family: 'Roboto Mono', monospace;
-    font-size: 10px;
-    color: var(--text-dim);
-    letter-spacing: 2px;
-    margin-bottom: 20px;
-}
+.header { font-family: 'Roboto Mono', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 2px; margin-bottom: 20px; }
 
 #avatar-mount {
-    height: 220px;
-    width: 100%;
-    background: rgba(0,0,0,0.4);
-    border-radius: 12px;
-    margin-bottom: 20px;
-    border: 1px solid var(--border);
+    height: 220px; width: 100%; background: rgba(0,0,0,0.4);
+    border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--border);
 }
 
-#gloss-text {
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--studio-teal);
-    margin-bottom: 5px;
-}
+#gloss-text { font-size: 28px; font-weight: 700; color: var(--studio-teal); margin-bottom: 5px; }
+#raw-subtitles { font-size: 12px; color: var(--text-dim); margin-bottom: 20px; }
 
-#raw-subtitles {
-    font-size: 12px;
-    color: var(--text-dim);
-    margin-bottom: 20px;
-}
-
-.stats {
-    display: flex;
-    justify-content: space-between;
-    font-size: 10px;
-    font-family: 'Roboto Mono', monospace;
-    margin-bottom: 5px;
-}
-
-.progress-bg {
-    height: 4px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 2px;
-    margin-bottom: 20px;
-}
-
-#progress-fill {
-    height: 100%;
-    background: var(--studio-teal);
-    width: 92%;
-    box-shadow: 0 0 10px var(--studio-teal);
-}
-
-.controls {
-    display: flex;
-    gap: 10px;
-}
+.stats { display: flex; justify-content: space-between; font-size: 10px; font-family: 'Roboto Mono', monospace; margin-bottom: 5px; }
+.progress-bg { height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; margin-bottom: 20px; }
+#progress-fill { height: 100%; background: var(--studio-teal); transition: width 0.3s ease; }
 
 .btn-neutral {
-    flex: 1;
-    background: #1a1a1a;
-    border: 1px solid #333;
-    color: var(--text-main);
-    padding: 8px;
-    border-radius: 6px;
-    font-size: 11px;
-    font-family: 'Roboto Mono', monospace;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.btn-neutral:hover {
-    border-color: var(--studio-teal);
-    color: var(--studio-teal);
+    width: 100%; background: #1a1a1a; border: 1px solid #333; color: var(--text-main);
+    padding: 10px; border-radius: 6px; font-size: 11px; font-family: 'Roboto Mono', monospace; cursor: pointer;
 }
