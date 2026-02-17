@@ -9,21 +9,26 @@
 </head>
 <body>
     <div class="asl-hud-container">
-        <div class="header">// LIVESIGN v1.0</div>
+        <div class="header">// LIVESIGN v1.0 STUDIO</div>
+        
         <div id="avatar-mount"></div>
+
         <div class="output-area">
             <div id="gloss-text">READY</div>
-            <div id="raw-subtitles">Awaiting audio...</div>
+            <div id="raw-subtitles">Awaiting audio input...</div>
         </div>
+
         <div class="dashboard">
             <div class="stats">
                 <span>SYNC PRECISION</span>
                 <span id="accuracy-val">92%</span>
             </div>
-            <div class="progress-bg"><div id="progress-fill"></div></div>
+            <div class="progress-bg">
+                <div id="progress-fill"></div>
+            </div>
             <div class="controls">
-                <button class="btn-neutral">FOCUS</button>
-                <button class="btn-neutral">NIGHT</button>
+                <button class="btn-neutral" id="focusBtn">FOCUS</button>
+                <button class="btn-neutral" id="nightBtn">NIGHT</button>
             </div>
         </div>
     </div>
