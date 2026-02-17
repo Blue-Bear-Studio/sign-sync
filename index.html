@@ -1,6 +1,57 @@
-<div class="output-area">
-    <div id="gloss-text">GET READY</div>
-    <div id="instruction-text" style="color: var(--text-dim); font-size: 14px; margin-bottom: 10px;">
-        SHOW ME THE SIGN FOR: <span id="target-sign" style="color: #fff; font-weight: bold;">HELLO</span>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiveSign Studio | Teacher Mode</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+</head>
+<body>
+    <video id="input_video" style="display:none"></video>
+
+    <div class="asl-hud-container">
+        <div class="header">// LIVESIGN v1.0 TUTOR</div>
+        
+        <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+            <div id="avatar-mount" style="flex: 2; height: 220px; background: rgba(0,0,0,0.4); border-radius: 12px; border: 1px solid var(--border);"></div>
+            
+            <div id="image-guide" style="flex: 1; height: 220px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px;">
+                <span style="font-family: 'Roboto Mono', monospace; font-size: 8px; color: var(--text-dim); margin-bottom: 12px; letter-spacing: 1px;">TARGET</span>
+                <img id="guide-pic" src="assets/hello.png" alt="Sign Guide" style="width: 90%; filter: invert(1) opacity(0.7); transition: 0.3s ease;">
+            </div>
+        </div>
+
+        <div class="output-area">
+            <div id="gloss-text">READY</div>
+            <div id="instruction-text" style="color: var(--text-dim); font-size: 13px; margin-top: 5px;">
+                MATCH THE SIGN: <span id="target-sign" style="color: var(--studio-teal); font-weight: 700;">HELLO</span>
+            </div>
+            
+            <div id="sentence-transcript" style="margin-top: 15px;">
+                HISTORY: <span id="current-sentence">...</span>
+            </div>
+        </div>
+
+        <div class="dashboard">
+            <div class="stats">
+                <span>MASTERY PROGRESS</span>
+                <span id="accuracy-val">0%</span>
+            </div>
+            <div class="progress-bg">
+                <div id="progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="controls">
+                <button class="btn-neutral" id="speakBtn">SPEAK</button>
+                <button class="btn-neutral" id="clearBtn">CLEAR</button>
+                <button class="btn-neutral" id="nightBtn">NIGHT</button>
+            </div>
+        </div>
     </div>
-</div>
+
+    <script src="asl_engine.js"></script>
+</body>
+</html>
+
